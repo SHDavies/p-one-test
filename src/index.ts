@@ -16,14 +16,9 @@ interface ScheduleIncrement {
     truckDeliveries: string[];
 }
 
-function scheduleDeliveries(deliveries: Delivery[], maxPlanes: number, maxTrucks: number) {
+function scheduleDeliveries(deliveries: Delivery[], maxPlanes: number, maxTrucks: number): number {
     // sort deliveries by totalDuration (desc)
     const sortedDeliveries = deliveries.sort((a, b) => b.totalDuration - a.totalDuration);
-
-    // const schedule: ScheduleIncrement[] = Array(sortedDeliveries[0].totalDuration).fill({
-    //     planeDeliveries: [],
-    //     truckDeliveries: [],
-    // });
     const schedule: ScheduleIncrement[] = [];
 
     sortedDeliveries.forEach((delivery) => {
@@ -95,6 +90,8 @@ function scheduleDeliveries(deliveries: Delivery[], maxPlanes: number, maxTrucks
     });
 
     fs.writeFileSync("./schedule.json", JSON.stringify(schedule));
+    console.log("Makespan:", schedule.length);
+    return schedule.length;
 }
 
 const testData: Delivery[] = [
